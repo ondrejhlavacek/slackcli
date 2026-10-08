@@ -737,12 +737,12 @@ def send_message(
                 initial_comment=composed.text if composed else None,
                 blocks=composed.blocks if composed else None,
             )
-            results["files"] = upload_result.get("files", [])
+            results["files"] = [{"ok": True, "file": file_info} for file_info in upload_result.get("files", [])]
             if composed:
                 results["format"] = composed.format
 
             if not output_json_flag:
-                for file_info in results["files"]:
+                for file_info in upload_result.get("files", []):
                     file_id = file_info.get("id", "unknown")
                     file_name = file_info.get("name", "unknown")
                     console.print(f"[green]File uploaded: {file_name}[/green]")
